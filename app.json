@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Futa Express",
+    "description": "Express delivery Futa Express",
+    "slug": "futa-express",
+    "scheme": "futa-express",
+    "privacy": "public",
+    "sdkVersion": "32.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/splash-icon-app/futa-icon-min.png",
+    "splash": {
+      "image": "./assets/images/splash-icon-app/futa-splash-min.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
+    },
+    "primaryColor": "#EE5222",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.futaexpress.futaexpress",
+      "versionCode": 1,
+      "permissions": [
+
+      ]
+    },
+  }
+}
