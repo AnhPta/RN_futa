@@ -38,6 +38,11 @@ import F3ListCheckConfirmArriveScreen from '../screens/F3GroupHome/F3ListCheckCo
 // import Demo from '../screens/F3GroupHome/Demo'; // Thử tối ưu render List
 // import Demo2 from '../screens/F3GroupHome/Demo2'; // Thử tối ưu render List
 
+// AF2GROUP SCREEN
+import AF2GroupScreen from '../screens/AF2GroupHome/AF2GroupScreen'; // Màn hình nhóm túi
+import AF2ListScreen from '../screens/AF2GroupHome/AF2ListScreen'; // Màn hình list
+import AF2DetailScreen from '../screens/AF2GroupHome/AF2DetailScreen'; // Màn hình detail
+
 
 //========================================================================================================================
 // DASHBOARD
@@ -262,6 +267,80 @@ const F3GroupBottomTabNavigation = createBottomTabNavigator(
   }
 );
 
+// ======================================================================================================
+// Danh sách F2 (gồm trang list
+const AF2ListStack = createStackNavigator(
+  {
+    AF2ListScreen: {
+      screen: AF2ListScreen
+    },
+    AF2DetailScreen: {
+      screen: AF2DetailScreen
+    }
+  },
+  {
+    headerMode: 'none',
+    headerTransitionPreset: 'uikit'
+  }
+);
+// GROUP AF2
+const AF2GroupBottomTabNavigation = createBottomTabNavigator(
+  {
+    AF2GroupScreen: {
+      screen: AF2GroupScreen,
+      navigationOptions: {
+        tabBarLabel: 'Nhóm hàng'
+      }
+    },
+    AF2ListStack: {
+      screen: AF2ListStack,
+      navigationOptions: {
+        tabBarLabel: 'List'
+      }
+    },
+  },
+  {
+    initialRouteName: 'AF2GroupScreen',
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+
+        if (routeName === 'AF2GroupScreen') {
+          iconName = 'ios-copy';
+          return <Ionicons style={{ marginBottom: -5 }} name={iconName} size={20} color={tintColor} />;
+        }
+
+        if (routeName === 'F2ConfirmArriveScreen') {
+          iconName = 'folder-open-o';
+        }
+
+        if (routeName === 'AF2ListStack') {
+          iconName = 'list-alt';
+        }
+
+        return <FontAwesome style={{ marginBottom: -5 }} name={iconName} size={20} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: '#000',
+      inactiveTintColor: 'rgba(0,0,0,.2)',
+      style: {
+        backgroundColor: '#F5F6F8',
+        borderTopColor: '#ccc',
+        shadowOffset:{ width: 2, height: 2 },
+        shadowColor: 'black',
+        shadowOpacity: 1.0,
+        shadowRadius: 2,
+      },
+      labelStyle: {
+        fontSize: 11,
+        fontWeight: '500'
+      },
+    }
+  }
+);
+
 //============================================================================================================================
 
 
@@ -278,7 +357,10 @@ export default createStackNavigator(
     },
     F3GroupBottomTabNavigation: {
       screen: F3GroupBottomTabNavigation
-    }
+    },
+    AF2GroupBottomTabNavigation: {
+      screen: AF2GroupBottomTabNavigation
+    },
   },
   {
     initialRouteName: 'DashboradStack',

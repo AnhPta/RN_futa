@@ -13,6 +13,7 @@ class BlogScreen extends Component {
     };
   }
 
+
   _alertNow () {
     this.dropdown.alertWithType('error', 'Error', 'Lỗi đây này');
   }

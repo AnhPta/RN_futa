@@ -134,17 +134,25 @@ class DashboardScreen extends Component {
         </View>
         <View style={{ flex: 1, paddingTop: 25 }}>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity activeOpacity={0.4} onPress={() => this.props.navigation.navigate('AF2GroupBottomTabNavigation')} >
+                <View style={{ width: 100, height: 100, backgroundColor: '#f5f6f7', borderRadius: 5, justifyContent: 'center',alignItems: 'center' }}>
+                  <MaterialCommunityIcons name='arrange-bring-forward' size={25} color='#535c68' />
+                  <Text style={{ marginTop: 5, color: '#000', fontSize: 14, fontWeight: 'bold' }}>AF2</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
               <TouchableOpacity activeOpacity={0.4} onPress={() => this.props.navigation.navigate('F2GroupBottomTabNavigation')} >
-                <View style={{ width: 100, height: 100, marginRight: 20, backgroundColor: '#f5f6f7', borderRadius: 5, justifyContent: 'center',alignItems: 'center' }}>
+                <View style={{ width: 100, height: 100, backgroundColor: '#f5f6f7', borderRadius: 5, justifyContent: 'center',alignItems: 'center' }}>
                   <MaterialCommunityIcons name='arrange-bring-forward' size={25} color='#535c68' />
                   <Text style={{ marginTop: 5, color: '#000', fontSize: 14, fontWeight: 'bold' }}>Nhóm F2</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
               <TouchableOpacity activeOpacity={0.4} onPress={() => this.props.navigation.navigate('F3GroupBottomTabNavigation')}>
-                <View style={{ width: 100, height: 100, marginLeft: 20, backgroundColor: '#f5f6f7', borderRadius: 5, justifyContent: 'center',alignItems: 'center' }}>
+                <View style={{ width: 100, height: 100, backgroundColor: '#f5f6f7', borderRadius: 5, justifyContent: 'center',alignItems: 'center' }}>
                   <MaterialCommunityIcons name='hexagon-multiple' size={25} color='#535c68' />
                   <Text style={{ marginTop: 5, color: '#000', fontSize: 14, fontWeight: 'bold' }}>Nhóm F3</Text>
                 </View>
