@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, Platform, StatusBar, TouchableOpacity, Image} from 'react-native';
+import { Alert, SectionList, FlatList, ScrollView, StyleSheet, Text, View, Button, Platform, StatusBar, TouchableOpacity, Image} from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from "../../axios"
 import { isIphoneXorAbove } from "../../filters";
@@ -56,54 +56,67 @@ class AF2ListScreen extends Component {
     let data = {
       "department_id": 377
     }
-    let temp = []
-    for (let i = 0; i < 8; i++) {
-      let child = []
-      for (let j = 0; j < 3; j++) {
-        let obj = {
-          'barcode': Math.floor(Math.random() * 1000) + 1,
-          'product_name': 'a',
-          'time_wait': '00h'
-        }
-        child.push(obj)
-      }
-
-      let key = {
-        'department_to': Math.floor(Math.random() * 1000) + 1,
-        'data': child
-      }
-
-      temp.push(key)
-    }
-
-    this.setState({
-      ...this.state, listData: temp
-    });
-
-    // axios.post('local_f2_get_list_package_to_group', data).then(response => {
-    //   if (response.Status == 1) {
-    //     let temp = response.Data
-    //     temp.map((item) => {
-    //       item.checked = 0
-    //       return item
-    //     })
-    //     var result=chain(temp).groupBy("department_to").map(function(v, i) {
-    //       return {
-    //         department_to: i,
-    //         data: map(v)
-    //       }
-    //     }).value();
-    //     console.log(result)
-
-    //     this.setState({
-    //       ...this.state, listData: result
-    //     });
+    // let temp = []
+    // for (let i = 0; i < 100; i++) {
+    //   let child = []
+    //   for (let j = 0; j < 300; j++) {
+    //     let obj = {
+    //       'barcode': Math.floor(Math.random() * 1000) + 1,
+    //       'product_name': 'a',
+    //       'time_wait': '00h'
+    //     }
+    //     child.push(obj)
     //   }
-    // })
+
+    //   let key = {
+    //     'department_to': Math.floor(Math.random() * 1000) + 1,
+    //     'data': child
+    //   }
+
+    //   temp.push(key)
+    // }
+
+    // this.setState({
+    //   ...this.state, listData: temp
+    // });
+
+    axios.post('local_f2_get_list_package_to_group', data).then(response => {
+      console.log(response)
+      if (response.Status == 1) {
+        let temp = response.Data
+        temp.map((item) => {
+          item.checked = 0
+          return item
+        })
+        var result=chain(temp).groupBy("department_to").map(function(v, i) {
+          return {
+            department_to: i,
+            data: map(v)
+          }
+        }).value();
+        console.log(result)
+
+        this.setState({
+          ...this.state, listData: result
+        });
+      }
+    })
   }
 
   groupF2 () {
-    alert('groupF2')
+    Alert.alert(
+    'Thông báo',
+    'Xác nhận nhóm?',
+    [
+      {text: 'OK', onPress: () => console.log('OK')},
+      {
+        text: 'Hủy',
+        onPress: () => console.log('Hủy'),
+        style: 'cancel',
+      },
+    ],
+    {cancelable: false},
+  );
   }
 
   render() {
@@ -129,50 +142,41 @@ class AF2ListScreen extends Component {
             }
           </View>
 
-        <ScrollView style={{flex: 1}}>
-          {
-            this.state.listData.map((item) => {
-              return (
-                <View key={item.department_to}>
-                  <View style={{display: 'flex', backgroundColor: '#eee', height: 25, justifyContent: 'center', fontWeight: 'bold', paddingLeft: 15}}>
-                    <Text>{item.department_to}</Text>
+          <SectionList
+            style={{flex: 1}}
+            sections={this.state.listData}
+            renderSectionHeader={({section}) =>
+              <View style={{display: 'flex', backgroundColor: '#eee', height: 25, justifyContent: 'center', fontWeight: 'bold', paddingLeft: 15}}>
+                <Text>{section.department_to}</Text>
+              </View>
+            }
+            renderItem={({item}) =>
+              <View key={item.barcode} style={{flex: 1}}>
+                <TouchableOpacity
+                style={styles.touchableOpacity}
+                onPress={this.changeChecked(item)}
+                >
+                  <View style={{flex: 10, justifyContent: 'center', alignItems: 'center'}}>
+                  {
+                    item.checked ?
+                    <Image style={styles.img} source={{uri: 'https://static.thenounproject.com/png/195060-200.png'}} />
+                    :
+                    <Image style={styles.img} source={{uri: 'http://www.sclance.com/pngs/radio-button-png/radio_button_png_1130468.png'}} />
+                  }
                   </View>
-                  <View>
-                    {
-                      item.data.map((child) => {
-                        return (
-                          <View key={child.barcode} style={{flex: 1}}>
-                            <TouchableOpacity
-                            style={styles.touchableOpacity}
-                            onPress={this.changeChecked(child)}
-                            >
-                              <View style={{flex: 10, justifyContent: 'center', alignItems: 'center'}}>
-                              {
-                                child.checked ?
-                                  <Image style={styles.img} source={{uri: 'https://static.thenounproject.com/png/195060-200.png'}} />
-                                 :
-                                  <Image style={styles.img} source={{uri: 'http://www.sclance.com/pngs/radio-button-png/radio_button_png_1130468.png'}} />
-                              }
-                              </View>
 
-                              <View style={{flex: 75}}>
-                                <Text style={{fontWeight: '500'}}>{child.barcode}</Text>
-                                <Text>{child.product_name}</Text>
-                              </View>
-                              <View style={{flex: 15}}>
-                                <Text>{child.time_wait}</Text>
-                              </View>
-                            </TouchableOpacity>
-                          </View>
-                        )
-                      })
-                    }
+                  <View style={{flex: 75}}>
+                    <Text style={{fontWeight: '500'}}>{item.barcode}</Text>
+                    <Text>{item.product_name}</Text>
                   </View>
-                </View>
-                )
-            })
-          }
-          </ScrollView>
+                  <View style={{flex: 15}}>
+                    <Text>{item.time_wait}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            }
+            keyExtractor={(item, index) => index}
+          />
         </View>
       </View>
     );
